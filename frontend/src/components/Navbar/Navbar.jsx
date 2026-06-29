@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import doliCryptoLogo from "../../assets/DoliNavLogo.png";
 import { FiHome, FiStar } from "react-icons/fi";
@@ -19,16 +20,26 @@ function Navbar() {
       </div>
       <ul className="navbar__menu">
         <li className="navbar__item">
-          <a href="/" className="navbar__link navbar__link--active">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `navbar__link ${isActive ? "navbar__link--active" : ""}`
+            }
+          >
             <FiHome />
             Home
-          </a>
+          </NavLink>
         </li>
         <li className="navbar__item">
-          <a href="/watchlist" className="navbar__link">
+          <NavLink
+            to="/watchlist"
+            className={({ isActive }) =>
+              `navbar__link ${isActive ? "navbar__link--active" : ""}`
+            }
+          >
             <FiStar />
             Watchlist
-          </a>
+          </NavLink>
         </li>
       </ul>
     </nav>

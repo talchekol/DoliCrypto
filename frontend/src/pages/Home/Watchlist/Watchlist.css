@@ -1,0 +1,90 @@
+.watchlist {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.watchlist__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.watchlist__subtitle {
+  color: #b3b3b3;
+  font-size: 1.1rem;
+}
+
+.watchlist__add-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px; /* מרווח קבוע מהכרטיסים שמעליו */
+}
+
+/* הבלוק עצמו - מעוצב בדיוק כמו סגנון הכרטיסים */
+.watchlist__add-paragraph {
+  background-color: #1a1a1a; /* צבע רקע כהה התואם לכרטיסים שלך */
+  border: 1px solid #2a2a2a; /* גבול עדין כמו בכרטיסים */
+  border-radius: 16px; /* פינות מעוגלות אלגנטיות */
+  padding: 24px 32px;
+  max-width: 500px; /* רוחב מקסימלי כדי שיישאר קומפקטי ונקי */
+  width: 100%;
+  text-align: center; /* מירכוז הטקסט הפנימי */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* שורת הכותרת שמחזיקה את הלוגו והטקסט */
+.watchlist__add-header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* מירכוז האייקון והכותרת יחד */
+  gap: 10px; /* רווח קטן בין האייקון למילה */
+  margin-bottom: 8px;
+}
+
+/* אייקון הכוכב (הלוגו) ליד הכיתוב */
+.watchlist__add-icon {
+  color: #7bf163; /* צבע כחול/סגול של האתר, או שנה לצבע הברנד שלך */
+  font-size: 1.3rem;
+  fill: rgba(99, 102, 241, 0.2); /* מילוי עדין מאוד לכוכב */
+}
+
+.watchlist__add-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.watchlist__add-caption {
+  color: #9ca3af; /* צבע טקסט אפור נעים לקריאה */
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ─── עיצוב המצב הריק (ללא שינוי) ─── */
+.watchlist__empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.watchlist__empty-icon {
+  font-size: 2rem;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+.watchlist__empty-state h3 {
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.watchlist__empty-state p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
