@@ -1,0 +1,99 @@
+/* Block */
+.home {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.home__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.home__hero-content {
+  flex: 1;
+}
+
+.home__hero-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.home__hero-subtitle {
+  color: #b3b3b3;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.home__hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home__hero-globe {
+  font-size: 6rem;
+  animation: float 4s ease-in-out infinite; /* אפקט ריחוף קטן בשביל הסטייל */
+}
+
+/* Elements - Search Section */
+.home__search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.home__search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #181818;
+  border: 1px solid #282828;
+  border-radius: 30px; /* קצוות מעוגלים יפים */
+  padding: 14px 25px;
+  width: 100%;
+  max-width: 600px; /* מגביל את הרוחב של שורת החיפוש */
+  transition: all 0.3s ease;
+}
+
+/* אפקט מדהים כשלוחצים על שורת החיפוש - מנצנץ בירוק */
+.home__search-bar:focus-within {
+  border-color: #1db954;
+  box-shadow: 0 0 10px rgba(29, 185, 84, 0.2);
+}
+
+.home__search-icon {
+  color: #b3b3b3;
+  font-size: 1.3rem;
+  margin-right: 15px;
+}
+
+.home__search-input {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.1rem;
+  width: 100%;
+  outline: none; /* מעלים את המסגרת המובנית של הדפדפן */
+}
+
+.home__search-input::placeholder {
+  color: #535353; /* צבע אפור כהה יותר לטקסט המקדים */
+}
+
+/* אנימציית ריחוף פשוטה לגלובוס */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
