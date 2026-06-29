@@ -97,3 +97,28 @@
     transform: translateY(-10px);
   }
 }
+
+.home__coins-section {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.home__section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #ffffff;
+  text-align: left; /* מבטיח שהכותרת תתחיל משמאל בצורה יפה */
+}
+
+/* 🌟 הגדרת הגריד המעודכנת והחזקה */
+.home__coins-grid {
+  display: grid !important; /* כפיית גריד כדי לבטל התנגשויות flex חיצוניות */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(240px, 1fr)
+  ) !important; /* חלוקה אוטומטית לעמודות */
+  gap: 25px;
+  width: 100%;
+  align-items: stretch; /* גורם לכל הכרטיסים להיות באותו גובה */
+}

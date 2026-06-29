@@ -1,6 +1,43 @@
 import React from "react";
 import { FiSearch } from "react-icons/fi"; // אייקון חיפוש מ-Feather
 import "./Home.css";
+import CryptoCard from "../../components/CryptoCard/CryptoCard"; // ייבוא רכיב כרטיס מטבעות
+
+const MOCK_COINS = [
+  {
+    id: "bitcoin",
+    name: "Bitcoin",
+    symbol: "btc",
+    current_price: 64250,
+    price_change_percentage_24h: 2.45,
+    image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+  },
+  {
+    id: "ethereum",
+    name: "Ethereum",
+    symbol: "eth",
+    current_price: 3450,
+    price_change_percentage_24h: -1.2,
+    image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
+  },
+  {
+    id: "binancecoin",
+    name: "BNB",
+    symbol: "bnb",
+    current_price: 580,
+    price_change_percentage_24h: 0.85,
+    image:
+      "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png",
+  },
+  {
+    id: "solana",
+    name: "Solana",
+    symbol: "sol",
+    current_price: 145,
+    price_change_percentage_24h: -4.15,
+    image: "https://assets.coingecko.com/coins/images/4128/large/solana.png",
+  },
+];
 
 function Home() {
   return (
@@ -29,6 +66,15 @@ function Home() {
             className="home__search-input"
             placeholder="Search for a coin or token..."
           />
+        </div>
+      </section>
+      {/* 🌟 אזור כרטיסי המטבעות החדש */}
+      <section className="home__coins-section">
+        <h2 className="home__section-title">Trending Market</h2>
+        <div className="home__coins-grid">
+          {MOCK_COINS.map((coin) => (
+            <CryptoCard key={coin.id} coin={coin} />
+          ))}
         </div>
       </section>
     </div>

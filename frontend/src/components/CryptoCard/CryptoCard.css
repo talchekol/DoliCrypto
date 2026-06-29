@@ -1,0 +1,92 @@
+.crypto-card {
+  background-color: #181818;
+  border: 1px solid #282828;
+  border-radius: 16px;
+  padding: 20px;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* אפקט ריחוף יוקרתי */
+.crypto-card:hover {
+  transform: translateY(-5px);
+  border-color: #383838;
+}
+
+.crypto-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.crypto-card__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.crypto-card__image {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.crypto-card__name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.crypto-card__symbol {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+}
+
+.crypto-card__watchlist-btn {
+  background: none;
+  border: none;
+  color: #535353;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+
+.crypto-card__watchlist-btn:hover {
+  color: #1db954; /* הופך לירוק בריחוף */
+}
+
+.crypto-card__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.crypto-card__price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* באדג'ים של אחוזי שינוי */
+.crypto-card__badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.crypto-card__badge--positive {
+  background-color: rgba(29, 185, 84, 0.1);
+  color: #1db954;
+}
+
+.crypto-card__badge--negative {
+  background-color: rgba(225, 30, 61, 0.1);
+  color: #e11e3d;
+}
