@@ -1,4 +1,4 @@
-# 🪙 DoliCrypto
+# 🪙 DoliCrypto //the kalfan
 
 [![React Version](https://img.shields.io/badge/react-v19.0-blue.svg)](https://react.dev/)
 [![Vite Version](https://img.shields.io/badge/vite-v8.0-purple.svg)](https://vite.dev/)
@@ -8,7 +8,7 @@ A real-time cryptocurrency tracker built with **React 19** and the **CoinGecko A
 
 ---
 
-## 🚀 Features
+## 🚀 Features 
 
 - **📊 Live Market Data** — Fetches up-to-date cryptocurrency prices, market symbols, and 24h percentage changes directly from the CoinGecko public API.
 - **🔍 Instant Client-Side Search** — Filter the entire list of coins instantly by name or ticker symbol without triggering redundant network requests.
