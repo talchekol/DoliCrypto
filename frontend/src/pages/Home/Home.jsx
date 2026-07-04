@@ -1,48 +1,37 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi"; // אייקון חיפוש מ-Feather
 import "./Home.css";
 import CryptoCard from "../../components/CryptoCard/CryptoCard"; // ייבוא רכיב כרטיס מטבעות
+import { getCoins } from "../../utils/cryptoApi"; // ייבוא הפונקציה שמביאה את המטבעות מ-CoinGecko
 
-const MOCK_COINS = [
-  {
-    id: "bitcoin",
-    name: "Bitcoin",
-    symbol: "btc",
-    current_price: 64250,
-    price_change_percentage_24h: 2.45,
-    image: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-  },
-  {
-    id: "ethereum",
-    name: "Ethereum",
-    symbol: "eth",
-    current_price: 3450,
-    price_change_percentage_24h: -1.2,
-    image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-  },
-  {
-    id: "binancecoin",
-    name: "BNB",
-    symbol: "bnb",
-    current_price: 580,
-    price_change_percentage_24h: 0.85,
-    image:
-      "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png",
-  },
-  {
-    id: "solana",
-    name: "Solana",
-    symbol: "sol",
-    current_price: 145,
-    price_change_percentage_24h: -4.15,
-    image: "https://assets.coingecko.com/coins/images/4128/large/solana.png",
-  },
-];
+function Home({ favorites, onToggleFavorite }) {
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
-function Home() {
+  useEffect(() => {
+    getCoins()
+      .then((data) => {
+        setCoins(data); // שומרים את המטבעות האמיתיים
+        setLoading(false); // מכבים את הטעינה
+      })
+      .catch((err) => {
+        console.error("CoinGecko API Error:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // 🌟 לוגיקת הסינון: מייצרים מערך חדש שמכיל רק מטבעות שמתאימים לטקסט החיפוש
+  const filteredCoins = coins.filter((coin) => {
+    return (
+      coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   return (
     <div className="home">
-      {/* Hero Section */}
       <section className="home__hero">
         <div className="home__hero-content">
           <h1 className="home__hero-title">Track Crypto Assets in Real-Time</h1>
@@ -52,7 +41,6 @@ function Home() {
           </p>
         </div>
         <div className="home__hero-visual">
-          {/* פה בהמשך תוכל לשים תמונת רקע או גרפיקה זורמת של רשת/כדור ארץ כהה */}
           <div className="home__hero-globe">🌐</div>
         </div>
       </section>
@@ -65,17 +53,40 @@ function Home() {
             type="text"
             className="home__search-input"
             placeholder="Search for a coin or token..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </section>
       {/* 🌟 אזור כרטיסי המטבעות החדש */}
       <section className="home__coins-section">
         <h2 className="home__section-title">Trending Market</h2>
-        <div className="home__coins-grid">
-          {MOCK_COINS.map((coin) => (
-            <CryptoCard key={coin.id} coin={coin} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="home__loading">Loading market data...</div>
+        ) : (
+          <div className="home__coins-grid">
+            {/* 🌟 מרנדרים את המערך המסונן (filteredCoins) במקום את המערך המקורי */}
+            {filteredCoins.length > 0 ? (
+              filteredCoins.map((coin) => {
+                const isFavorite = favorites
+                  ? favorites.some((fav) => fav.id === coin.id)
+                  : false;
+                return (
+                  <CryptoCard
+                    key={coin.id}
+                    coin={coin}
+                    isFavorite={isFavorite}
+                    onToggleFavorite={onToggleFavorite}
+                  />
+                );
+              })
+            ) : (
+              <div className="home__no-results">
+                No coins match your search.
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );

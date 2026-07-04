@@ -2,7 +2,7 @@ import React from "react";
 import { FiStar } from "react-icons/fi"; // אייקון כוכב בשביל ה-Watchlist
 import "./CryptoCard.css";
 
-function CryptoCard({ coin }) {
+function CryptoCard({ coin, isFavorite, onToggleFavorite }) {
   // בודק אם אחוז השינוי חיובי או שלילי כדי לקבוע צבע (ירוק או אדום)
   const isPositive = coin.price_change_percentage_24h >= 0;
 
@@ -23,7 +23,8 @@ function CryptoCard({ coin }) {
           </div>
         </div>
         <button
-          className="crypto-card__watchlist-btn"
+          className={`crypto-card__watchlist-btn ${isFavorite ? "active" : ""}`}
+          onClick={() => onToggleFavorite(coin)}
           aria-label="Add to watchlist"
         >
           <FiStar className="crypto-card__watchlist-icon" />

@@ -61,6 +61,11 @@
   color: #1db954; /* הופך לירוק בריחוף */
 }
 
+.crypto-card__watchlist-btn.active .crypto-card__watchlist-icon {
+  color: #ffca28; /* צבע זהב/צהוב מושלם לקריפטו */
+  fill: #ffca28; /* ממלא את התוך של הכוכב כדי שייראה מלא */
+}
+
 .crypto-card__body {
   display: flex;
   justify-content: space-between;
