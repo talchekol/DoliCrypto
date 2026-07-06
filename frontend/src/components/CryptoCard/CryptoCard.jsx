@@ -1,4 +1,3 @@
-import React from "react";
 import { FiStar } from "react-icons/fi"; // אייקון כוכב בשביל ה-Watchlist
 import "./CryptoCard.css";
 

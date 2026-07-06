@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi"; // אייקון חיפוש מ-Feather
 import "./Home.css";

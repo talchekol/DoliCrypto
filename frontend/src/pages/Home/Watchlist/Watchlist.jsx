@@ -1,5 +1,4 @@
-import React from "react";
-import { FiStar, FiInfo } from "react-icons/fi";
+import { FiStar } from "react-icons/fi";
 import "./Watchlist.css";
 import CryptoCard from "../../../components/CryptoCard/CryptoCard";
 
