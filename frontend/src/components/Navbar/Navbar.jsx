@@ -39,7 +39,7 @@ function Navbar() {
       >
         <li className="navbar__item">
           <NavLink
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               `navbar__link ${isActive ? "navbar__link--active" : ""}`
             }

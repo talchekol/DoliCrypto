@@ -31,13 +31,14 @@ function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <Router>
       <div className="app-container">
         <Navbar />
         <main className="main-content">
           <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
             <Route
-              path="/"
+              path="/home"
               element={
                 <Home
                   favorites={favorites}
