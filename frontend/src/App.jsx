@@ -7,57 +7,192 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 import "./App.css";
 import Watchlist from "./pages/Home/Watchlist/Watchlist";
+import {
+  login,
+  register,
+  addFavoriteCoin,
+  removeFavoriteCoin,
+} from "./utils/api";
 
 function App() {
+  // --- 👤 סטייט לניהול משתמש מחובר ---
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
   //  : יצירת מערך בסטייט בשם favorites
-  const [favorites, setFavorites] = useState(() => {
-    // בדיקה אם יש מועדפים ב-localStorage
-    const savedFavorites = localStorage.getItem("favorites");
-    return savedFavorites ? JSON.parse(savedFavorites) : [];
-  });
+  const [favorites, setFavorites] = useState([]);
 
-  //  לוגיקה המועדפים-Toggle (הוספה/הסרה)
+  // --- 🔐 בדיקת חיבור ראשונית וטעינת מועדפים מהדאטה-בייס ---
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      setIsLoggedIn(true);
+
+      const savedUser = localStorage.getItem("user");
+      if (savedUser) {
+        setCurrentUser(JSON.parse(savedUser));
+      }
+
+      // 🪙 טעינת המועדפים של המשתמש ישירות מהדאטה-בייס בטעינת האתר
+      getFavoriteCoins(jwt)
+        .then((coinFavorites) => {
+          // נמפה את המבנה שחזר מהמונגו למבנה שהפרונט-אנד שלך מצפה לו (למשל עם id במקום coinId)
+          const mappedFavorites = coinFavorites.map((coin) => ({
+            _id: coin._id, // נשמור את ה-Mongo ID של הרשומה כדי שנוכל למחוק אותה בקלות
+            id: coin.coinId,
+            name: coin.name,
+            symbol: coin.symbol,
+            image: coin.image,
+          }));
+          setFavorites(mappedFavorites);
+        })
+        .catch((err) => console.error("שגיאה בטעינת מועדפים מהשרת:", err));
+    }
+  }, [isLoggedIn]); // ה-useEffect ירוץ מחדש ברגע שמצב ההתחברות משתנה
+
+  // --- 🔄 לוגיקת Toggle מעודכנת מול הדאטה-בייס ---
   const handleToggleFavorite = (coin) => {
-    const isExist = favorites.some((fav) => fav.id === coin.id);
+    const jwt = localStorage.getItem("jwt");
+    if (!jwt) return;
 
-    if (isExist) {
-      // אם המטבע כבר שם – תסיר אותו
-      setFavorites(favorites.filter((fav) => fav.id !== coin.id));
+    // בודקים האם המטבע כבר קיים במועדפים של המשתמש
+    const existingCoin = favorites.find((fav) => fav.id === coin.id);
+
+    if (existingCoin) {
+      // 1. אם המטבע קיים – מוחקים אותו מהדאטה-בייס (באמצעות ה-_id של מונגו)
+      removeFavoriteCoin(existingCoin._id, jwt)
+        .then(() => {
+          // רק לאחר מחיקה מוצלחת בשרת, נסיר מהסטייט ב-React
+          setFavorites(favorites.filter((fav) => fav.id !== coin.id));
+        })
+        .catch((err) => console.error("שגיאה במחיקת מטבע מהדאטה-בייס:", err));
     } else {
-      // אם הוא לא במערך – תוסיף אותו
-      setFavorites([...favorites, coin]);
+      // 2. אם המטבע לא קיים – מוסיפים אותו לדאטה-בייס
+      addFavoriteCoin(coin, jwt)
+        .then((savedCoin) => {
+          // מוסיפים לסטייט את המטבע שנשמר בשרת (כולל ה-_id החדש שמונגו יצר לו)
+          const newFavorite = {
+            _id: savedCoin._id,
+            id: savedCoin.coinId,
+            name: savedCoin.name,
+            symbol: savedCoin.symbol,
+            image: savedCoin.image,
+          };
+          setFavorites([...favorites, newFavorite]);
+        })
+        .catch((err) =>
+          console.error("error in adding coin to favorites:", err),
+        );
     }
   };
 
-  useEffect(() => {
-    // שמירת המועדפים ב-localStorage בכל פעם שהם משתנים
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+  // --- 🔑 פונקציית הרשמה מדף Signup ---
+  const handleRegister = (name, email, password) => {
+    return register(name, email, password)
+      .then((res) => {
+        navigate("/login"); // לאחר הרשמה מוצלחת, ננווט לדף ההתחברות
+      })
+      .catch((err) => {
+        console.error("error in registration:", err);
+      });
+  };
+
+  // --- 🔑 פונקציית התחברות מדף Login ---
+  const handleLogin = (email, password) => {
+    return login(email, password).then((data) => {
+      if (data.token) {
+        localStorage.setItem("jwt", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setIsLoggedIn(true);
+        setCurrentUser(data.user);
+      }
+    });
+  };
+
+  // --- 🚪 פונקציית התנתקות ---
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    setFavorites([]); // מנקים את המועדפים כדי שלא יישארו למשתמש הבא
+  };
+
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <div className="app-container">
-        <Navbar />
+        {/* ה-Navbar והבאנר מוצגים רק אם המשתמש מחובר */}
+        {isLoggedIn && <Navbar onLogout={handleLogout} />}
+
+        {isLoggedIn && currentUser && (
+          <div className="welcome-banner">
+            Welcome back, {currentUser.name}!
+          </div>
+        )}
+
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route
+              path="/"
+              element={
+                <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
+              }
+            />
+
+            <Route
+              path="/login"
+              element={
+                isLoggedIn ? (
+                  <Navigate to="/home" replace />
+                ) : (
+                  <Login onLogin={handleLogin} />
+                )
+              }
+            />
+
+            <Route
+              path="/register"
+              element={
+                isLoggedIn ? <Navigate to="/home" replace /> : <Register />
+              }
+            />
+
             <Route
               path="/home"
               element={
-                <Home
-                  favorites={favorites}
-                  onToggleFavorite={handleToggleFavorite}
-                />
+                isLoggedIn ? (
+                  <Home
+                    favorites={favorites}
+                    onToggleFavorite={handleToggleFavorite}
+                  />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
               }
             />
+
             <Route
               path="/watchlist"
               element={
-                <Watchlist
-                  favorites={favorites}
-                  onToggleFavorite={handleToggleFavorite}
-                />
+                isLoggedIn ? (
+                  <Watchlist
+                    favorites={favorites}
+                    onToggleFavorite={handleToggleFavorite}
+                  />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+
+            <Route
+              path="*"
+              element={
+                <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
               }
             />
           </Routes>
