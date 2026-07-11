@@ -21,6 +21,8 @@ import {
 } from "./utils/api";
 
 function App() {
+  const navigate = useNavigate();
+
   // --- 👤 סטייט לניהול משתמש מחובר ---
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
