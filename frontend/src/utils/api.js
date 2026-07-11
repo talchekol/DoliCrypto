@@ -5,7 +5,12 @@ const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Error: ${res.status}`);
+  return res
+    .json()
+    .catch(() => ({}))
+    .then((data) =>
+      Promise.reject(new Error(data.message || `Error: ${res.status}`)),
+    );
 };
 
 // ==========================================

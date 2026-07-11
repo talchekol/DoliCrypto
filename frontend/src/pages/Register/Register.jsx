@@ -6,17 +6,23 @@ function Register({ onRegister }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !password) return;
-    onRegister(name, email, password);
+    setError("");
+    onRegister(name, email, password).catch((err) => {
+      setError(err.message || "Registration failed. Please try again.");
+    });
   };
 
   return (
     <div className="auth-page-wrapper">
       <div className="auth-card">
         <h2 className="auth-title">Sign Up</h2>
+
+        {error && <p className="auth-error">{error}</p>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">

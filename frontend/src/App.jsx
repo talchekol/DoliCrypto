@@ -32,7 +32,12 @@ function App() {
 
       const savedUser = localStorage.getItem("user");
       if (savedUser) {
-        setCurrentUser(JSON.parse(savedUser));
+        try {
+          setCurrentUser(JSON.parse(savedUser));
+        } catch (err) {
+          console.error("שגיאה בטעינת פרטי המשתמש מהאחסון המקומי:", err);
+          localStorage.removeItem("user");
+        }
       }
 
       // 🪙 טעינת המועדפים של המשתמש ישירות מהדאטה-בייס בטעינת האתר
@@ -90,13 +95,9 @@ function App() {
 
   // --- 🔑 פונקציית הרשמה מדף Signup ---
   const handleRegister = (name, email, password) => {
-    return register(name, email, password)
-      .then((res) => {
-        navigate("/login"); // לאחר הרשמה מוצלחת, ננווט לדף ההתחברות
-      })
-      .catch((err) => {
-        console.error("error in registration:", err);
-      });
+    return register(name, email, password).then((res) => {
+      navigate("/login"); // לאחר הרשמה מוצלחת, ננווט לדף ההתחברות
+    });
   };
 
   // --- 🔑 פונקציית התחברות מדף Login ---

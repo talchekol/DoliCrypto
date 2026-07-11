@@ -5,17 +5,23 @@ import "./Login.css";
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email || !password) return;
-    onLogin(email, password);
+    setError("");
+    onLogin(email, password).catch((err) => {
+      setError(err.message || "Login failed. Please try again.");
+    });
   };
 
   return (
     <div className="auth-page-wrapper">
       <div className="auth-card">
         <h2 className="auth-title">Sign In</h2>
+
+        {error && <p className="auth-error">{error}</p>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">

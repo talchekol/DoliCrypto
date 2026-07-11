@@ -2,8 +2,11 @@ import { FiStar } from "react-icons/fi"; // אייקון כוכב בשביל ה-
 import "./CryptoCard.css";
 
 function CryptoCard({ coin, isFavorite, onToggleFavorite }) {
+  // CoinGecko יכול להחזיר null עבור מטבעות חדשים/לא נסחרים
+  const price = coin.current_price ?? 0;
+  const priceChange = coin.price_change_percentage_24h ?? 0;
   // בודק אם אחוז השינוי חיובי או שלילי כדי לקבוע צבע (ירוק או אדום)
-  const isPositive = coin.price_change_percentage_24h >= 0;
+  const isPositive = priceChange >= 0;
 
   return (
     <div className="crypto-card">
@@ -31,14 +34,12 @@ function CryptoCard({ coin, isFavorite, onToggleFavorite }) {
       </div>
 
       <div className="crypto-card__body">
-        <div className="crypto-card__price">
-          ${coin.current_price.toLocaleString()}
-        </div>
+        <div className="crypto-card__price">${price.toLocaleString()}</div>
         <div
           className={`crypto-card__badge ${isPositive ? "crypto-card__badge--positive" : "crypto-card__badge--negative"}`}
         >
           {isPositive ? "+" : ""}
-          {coin.price_change_percentage_24h.toFixed(2)}%
+          {priceChange.toFixed(2)}%
         </div>
       </div>
     </div>
