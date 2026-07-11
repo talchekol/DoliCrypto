@@ -39,6 +39,17 @@ export const login = (email, password) => {
   }).then(checkResponse);
 };
 
+// 3. בקשת פרטי המשתמש הנוכחי (Get Current User)
+export const getCurrentUser = (token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};
+
 // ==========================================
 // 🪙 פונקציות מטבעות מועדפים (Coins API)
 // ==========================================

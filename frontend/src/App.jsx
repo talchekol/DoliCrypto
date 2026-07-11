@@ -12,6 +12,7 @@ import {
   addFavoriteCoin,
   removeFavoriteCoin,
   getFavoriteCoins,
+  getCurrentUser,
 } from "./utils/api";
 
 function App() {
@@ -102,14 +103,22 @@ function App() {
 
   // --- 🔑 פונקציית התחברות מדף Login ---
   const handleLogin = (email, password) => {
-    return login(email, password).then((data) => {
-      if (data.token) {
-        localStorage.setItem("jwt", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        setIsLoggedIn(true);
-        setCurrentUser(data.user);
-      }
-    });
+    return login(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+
+          return getCurrentUser(data.token).then((userData) => {
+            localStorage.setItem("user", JSON.stringify(userData));
+            setCurrentUser(userData);
+            setIsLoggedIn(true);
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Login failed:", err);
+        throw err; // מאפשר ל-Login.jsx לתפוס את השגיאה ולהציג אותה ב-UI
+      });
   };
 
   // --- 🚪 פונקציית התנתקות ---
@@ -134,9 +143,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
-            }
+            element={<Navigate to={isLoggedIn ? "/home" : "/login"} replace />}
           />
 
           <Route
@@ -191,9 +198,7 @@ function App() {
 
           <Route
             path="*"
-            element={
-              <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
-            }
+            element={<Navigate to={isLoggedIn ? "/home" : "/login"} replace />}
           />
         </Routes>
       </main>
