@@ -22,7 +22,7 @@ function Login({ onLogin }) {
             <label>Email Address</label>
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder="example@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

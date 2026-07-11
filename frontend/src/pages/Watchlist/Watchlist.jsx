@@ -1,6 +1,6 @@
 import { FiStar } from "react-icons/fi";
 import "./Watchlist.css";
-import CryptoCard from "../../../components/CryptoCard/CryptoCard";
+import CryptoCard from "../../components/CryptoCard/CryptoCard";
 
 function Watchlist({ favorites, onToggleFavorite }) {
   return (

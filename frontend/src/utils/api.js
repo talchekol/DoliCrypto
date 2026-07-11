@@ -38,6 +38,17 @@ export const login = (email, password) => {
 // 🪙 פונקציות מטבעות מועדפים (Coins API)
 // ==========================================
 
+// 🔥 הוספת ה-Export שהיה חסר!
+export const getFavoriteCoins = (token) => {
+  return fetch(`${BASE_URL}/coins`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};
+
 // שמירת מטבע חדש בדאטה-בייס (POST /coins)
 export const addFavoriteCoin = (coin, token) => {
   // נשלח בדיוק את השדות שהשרת שלנו (וה-Joi/Celebrate) מצפים לקבל ב-body

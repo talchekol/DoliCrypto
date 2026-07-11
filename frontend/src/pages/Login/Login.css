@@ -4,8 +4,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* שימוש בגווני הכחול-שחור הכהים של ה-Theme שלך */
-  background: radial-gradient(circle at center, #1e1e38 0%, #0d0d1a 100%);
+  /* אותה תמונת רקע של דף הבית, עם שכבת כהות לקריאות */
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(13, 13, 26, 0.85),
+      rgba(13, 13, 26, 0.85)
+    ),
+    url("../../assets/CryptoHomePageImage.jpg") no-repeat center center;
+  background-size: cover;
   font-family:
     "Inter",
     system-ui,

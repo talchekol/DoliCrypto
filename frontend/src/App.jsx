@@ -5,17 +5,19 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import "./App.css";
-import Watchlist from "./pages/Home/Watchlist/Watchlist";
+import Watchlist from "./pages/Watchlist/Watchlist";
 import {
   login,
   register,
   addFavoriteCoin,
   removeFavoriteCoin,
+  getFavoriteCoins,
 } from "./utils/api";
 
 function App() {
@@ -123,7 +125,7 @@ function App() {
   };
 
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <Router>
       <div className="app-container">
         {/* ה-Navbar והבאנר מוצגים רק אם המשתמש מחובר */}
         {isLoggedIn && <Navbar onLogout={handleLogout} />}
@@ -157,7 +159,11 @@ function App() {
             <Route
               path="/register"
               element={
-                isLoggedIn ? <Navigate to="/home" replace /> : <Register />
+                isLoggedIn ? (
+                  <Navigate to="/home" replace />
+                ) : (
+                  <Register onRegister={handleRegister} />
+                )
               }
             />
 
