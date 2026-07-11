@@ -121,86 +121,82 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="app-container">
-        {/* ה-Navbar והבאנר מוצגים רק אם המשתמש מחובר */}
-        {isLoggedIn && <Navbar onLogout={handleLogout} />}
+    <div className="app-container">
+      {/* ה-Navbar והבאנר מוצגים רק אם המשתמש מחובר */}
+      {isLoggedIn && <Navbar onLogout={handleLogout} />}
 
-        {isLoggedIn && currentUser && (
-          <div className="welcome-banner">
-            Welcome back, {currentUser.name}!
-          </div>
-        )}
+      {isLoggedIn && currentUser && (
+        <div className="welcome-banner">Welcome back, {currentUser.name}!</div>
+      )}
 
-        <main className="main-content">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
-              }
-            />
+      <main className="main-content">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
+            }
+          />
 
-            <Route
-              path="/login"
-              element={
-                isLoggedIn ? (
-                  <Navigate to="/home" replace />
-                ) : (
-                  <Login onLogin={handleLogin} />
-                )
-              }
-            />
+          <Route
+            path="/login"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
+            }
+          />
 
-            <Route
-              path="/register"
-              element={
-                isLoggedIn ? (
-                  <Navigate to="/home" replace />
-                ) : (
-                  <Register onRegister={handleRegister} />
-                )
-              }
-            />
+          <Route
+            path="/register"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Register onRegister={handleRegister} />
+              )
+            }
+          />
 
-            <Route
-              path="/home"
-              element={
-                isLoggedIn ? (
-                  <Home
-                    favorites={favorites}
-                    onToggleFavorite={handleToggleFavorite}
-                  />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
+          <Route
+            path="/home"
+            element={
+              isLoggedIn ? (
+                <Home
+                  favorites={favorites}
+                  onToggleFavorite={handleToggleFavorite}
+                />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
 
-            <Route
-              path="/watchlist"
-              element={
-                isLoggedIn ? (
-                  <Watchlist
-                    favorites={favorites}
-                    onToggleFavorite={handleToggleFavorite}
-                  />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
+          <Route
+            path="/watchlist"
+            element={
+              isLoggedIn ? (
+                <Watchlist
+                  favorites={favorites}
+                  onToggleFavorite={handleToggleFavorite}
+                />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
 
-            <Route
-              path="*"
-              element={
-                <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
-              }
-            />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+          <Route
+            path="*"
+            element={
+              <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
+            }
+          />
+        </Routes>
+      </main>
+    </div>
   );
 }
 
