@@ -38,7 +38,7 @@ export const login = (email, password) => {
 // 🪙 פונקציות מטבעות מועדפים (Coins API)
 // ==========================================
 
-// 🔥 הוספת ה-Export שהיה חסר!
+// 3. קבלת רשימת המטבעות המועדפים של המשתמש (GET /coins)
 export const getFavoriteCoins = (token) => {
   return fetch(`${BASE_URL}/coins`, {
     method: "GET",
