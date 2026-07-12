@@ -87,7 +87,7 @@
   text-align: left;
   transition: all 0.2s ease;
 }
-*/ .navbar__link--logout:hover {
+.navbar__link--logout:hover {
   background-color: #1db954;
 }
 
