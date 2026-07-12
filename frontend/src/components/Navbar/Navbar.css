@@ -88,7 +88,7 @@
   transition: all 0.2s ease;
 }
 .navbar__link--logout:hover {
-  background-color: #1db954;
+  color: #1db954;
 }
 
 /* ── Mobile ── */
