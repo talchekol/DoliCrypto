@@ -73,6 +73,24 @@
   font-weight: bold;
 }
 
+.navbar__link--logout {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b3b3b3;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+*/ .navbar__link--logout:hover {
+  background-color: #1db954;
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
   .navbar__hamburger {

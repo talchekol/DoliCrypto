@@ -2,13 +2,19 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import doliCryptoLogo from "../../assets/DoliNavLogo.png";
-import { FiHome, FiStar, FiMenu, FiX } from "react-icons/fi";
+import { FiHome, FiStar, FiMenu, FiX, FiLogOut } from "react-icons/fi";
 
-function Navbar() {
+function Navbar({ onLogout }) {
   // מצב של תפריט פתוח או סגור
   const [menuOpen, setMenuOpen] = useState(false);
   // פונקציה לסגירת התפריט
   const closeMenu = () => setMenuOpen(false);
+
+  // פונקציה פנימית שמטפלת בלחיצה על התנתקות
+  const handleLogoutClick = () => {
+    closeMenu(); // סוגר את תפריט המובייל אם הוא היה פתוח
+    onLogout(); // מפעיל את לוגיקת הניתוק המרכזית
+  };
 
   return (
     <nav className="navbar">
@@ -60,6 +66,15 @@ function Navbar() {
             <FiStar />
             Watchlist
           </NavLink>
+        </li>
+        <li className="navbar__item">
+          <button
+            className="navbar__link navbar__link--logout"
+            onClick={handleLogoutClick}
+          >
+            <FiLogOut />
+            Sign Out
+          </button>
         </li>
       </ul>
     </nav>

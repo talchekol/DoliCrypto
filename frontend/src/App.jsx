@@ -135,11 +135,13 @@ function App() {
       {/* ה-Navbar והבאנר מוצגים רק אם המשתמש מחובר */}
       {isLoggedIn && <Navbar onLogout={handleLogout} />}
 
-      {isLoggedIn && currentUser && (
-        <div className="welcome-banner">Welcome back, {currentUser.name}!</div>
-      )}
-
       <main className="main-content">
+        {isLoggedIn && currentUser && (
+          <div className="welcome-banner">
+            Welcome back, {currentUser.name}!
+          </div>
+        )}
+
         <Routes>
           <Route
             path="/"
