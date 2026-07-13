@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:3001";
+// כתובת ה-API של השרת שלנו (backend)
+const BASE_URL = "https://dolicrypto-backend.onrender.com";
 
 // פונקציית עזר פנימית לבדיקת תגובת השרת
 const checkResponse = (res) => {
