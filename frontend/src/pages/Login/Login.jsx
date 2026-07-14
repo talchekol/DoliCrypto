@@ -6,14 +6,22 @@ function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  // הפכנו את הפונקציה ל-async כדי לנהל את מצב הטעינה בצורה נקייה
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) return;
     setError("");
-    onLogin(email, password).catch((err) => {
+    setIsLoading(true); // 1. מפעילים את מצב הטעינה וחוסמים את הכפתור
+
+    try {
+      await onLogin(email, password); // מחכים שהתחברות תסתיים בהצלחה
+    } catch (err) {
       setError(err.message || "Login failed. Please try again.");
-    });
+    } finally {
+      setIsLoading(false); // 2. מכבים את הטעינה (בין אם הצליח ובין אם נכשל)
+    }
   };
 
   return (
@@ -46,8 +54,12 @@ function Login({ onLogin }) {
             />
           </div>
 
-          <button type="submit" className="auth-submit-btn">
-            Sign In
+          <button
+            type="submit"
+            className="auth-submit-btn"
+            disabled={isLoading}
+          >
+            {isLoading ? "Signing In... please Wait" : "Sign In"}
           </button>
         </form>
 

@@ -7,14 +7,21 @@ function Register({ onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) return;
     setError("");
-    onRegister(name, email, password).catch((err) => {
+    setIsLoading(true); // מפעילים את מצב הטעינה וחוסמים את הכפתור
+
+    try {
+      await onRegister(name, email, password); // מחכים לסיום ההרשמה
+    } catch (err) {
       setError(err.message || "Registration failed. Please try again.");
-    });
+    } finally {
+      setIsLoading(false); // מכבים את הטעינה
+    }
   };
 
   return (
@@ -58,8 +65,12 @@ function Register({ onRegister }) {
             />
           </div>
 
-          <button type="submit" className="auth-submit-btn">
-            Sign Up
+          <button
+            type="submit"
+            className="auth-submit-btn "
+            disabled={isLoading}
+          >
+            {isLoading ? "Registering... please Wait" : "Sign Up"}
           </button>
         </form>
 
